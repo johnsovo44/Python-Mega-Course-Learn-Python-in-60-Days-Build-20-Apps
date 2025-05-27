@@ -1,0 +1,8 @@
+Pycharm is an integrated development environment. Basically a text editor where you can write code like python. You will need a interpreter to convert and execute the code.
+
+download link: https://www.jetbrains.com/pycharm/download/download-thanks.html?platform=windows&code=PCC
+
+You'll need a python interpreter too, at least 3.10 or newer.
+
+download link: https://www.python.org
+
