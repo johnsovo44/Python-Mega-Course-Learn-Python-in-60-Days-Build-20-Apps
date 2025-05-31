@@ -18,9 +18,10 @@ Concepts Used in this Script:
 
 # Below we use a variable to store the user input for a todo item.
 # A variable is a named storage location in memory that can hold data.
-user_prompt = "Type add or show or exit:"  # This is a prompt for the user to enter a todo item. Data Type is a string.
+user_prompt = "Type add, show, edit, complete or exit:"  # This is a prompt for the user to enter a todo item. Data Type is a string.
 
 todolist = []  # Initialize an empty list to store todo items. Data Type is a list.
+
 while True:
     user_action = input(user_prompt)  # Get user input for a todo item. Data Type is a string.
     user_action = user_action.strip()
@@ -29,13 +30,32 @@ while True:
         case "add": # If the user input is "add", we proceed to add a todo item.
             todo = input("Enter a todo item: ")  # Get the todo item from the user. Data Type is a string.
             todolist.append(todo)  # Add the todo item to the list using a list object method. This modifies the list in place.
+
         case "show" | "display":  # If the user input is "show" or "display", we display the todo list.
             print("Your todo list:")  # Print a header for the todo list.
-            for item in todolist:  # Iterate over each item in the todo list.
+            for index, item in enumerate(todolist):  # Iterate over each item in the todo list.
                 item = item.title()
-                print(item)
+                print(f"{index}. {item}")  # Print each item in the todo list with its number. The f-string is used to format the output.
+
+        case "edit":  # If the user input is "edit", we allow the user to edit a todo item.
+            number = int(input("Enter list item to edit:"))
+            existing_todo = todolist[number - 1]
+            print(existing_todo.title())  # Display the existing todo item to the user.
+            new_todo = input("Enter new todo item: ")
+            todolist[number - 1] = new_todo  # Update the todo item in the list with the new value.
+            print(f"Updated todo item: {new_todo.title()}")  # Print the updated todo item to the user.
+
+        case "complete": 
+            number = int(input("Enter list itme you completed: "))
+            if 0 < number <= len(todolist):  # Check if the number is within the valid range of the todo list.
+                completed_todo = todolist.pop(number - 1)  # Remove the completed todo item from the list using pop method.
+                print(f"Completed todo item: {completed_todo.title()}")  # Print the completed todo item to the user.
+            else:
+                print("Invalid number. Please try again.")  # Notify the user if the number is invalid.
+
         case "exit":
             break  # If the user input is "exit", we break out of the loop to end the program.
+        
         case _:  # If the user input is not recognized, we notify the user. A variable is defined on the fly to handle text we didn't anticipate.
             print("Command not recognized. Please type 'add' to add a todo item or 'show' to display the todo list. Type exit to terminate the program.")  # Notify the user that the command is not recognized.
 
