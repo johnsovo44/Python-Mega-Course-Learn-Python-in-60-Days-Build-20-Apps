@@ -14,24 +14,37 @@ Concepts Used in this Script:
 - main.py
 - input function
 """
+import os  # Import the os module to interact with the operating system, such as file handling.
+
+base_dir = os.path.dirname (__file__)  # Get the directory of the current file. This is useful for file handling.
+
+file_path = os.path.join(base_dir, 'todos.txt')  # Create a file path for the todo list file. This combines the base directory with the file name.
+
 # This is the main script for a simple todo application.
 
 # Below we use a variable to store the user input for a todo item.
 # A variable is a named storage location in memory that can hold data.
 user_prompt = "Type add, show, edit, complete or exit:"  # This is a prompt for the user to enter a todo item. Data Type is a string.
 
-todolist = []  # Initialize an empty list to store todo items. Data Type is a list.
+
 
 while True:
     user_action = input(user_prompt)  # Get user input for a todo item. Data Type is a string.
     user_action = user_action.strip()
 
     match user_action:  # Check the user input against the expected commands.
+
         case "add": # If the user input is "add", we proceed to add a todo item.
-            todo = input("Enter a todo item: ")  # Get the todo item from the user. Data Type is a string.
+            todo = input("Enter a todo item: ")  + "\n" # Get the todo item from the user. Data Type is a string.
+            with open(file_path, 'r') as file:
+                todolist = file.readlines() # Read the existing todo list from the file. This is a file object method that reads the lines of the file into a list.
             todolist.append(todo)  # Add the todo item to the list using a list object method. This modifies the list in place.
+            with open(file_path, 'w') as file:
+                file.writelines(todolist)  # Write the todo list to a file named 'todos.txt'. This is a file object method that writes the list to the file.
 
         case "show" | "display":  # If the user input is "show" or "display", we display the todo list.
+            with open(file_path, 'r') as file:
+                todolist = file.readlines()
             print("Your todo list:")  # Print a header for the todo list.
             for index, item in enumerate(todolist):  # Iterate over each item in the todo list.
                 item = item.title()
