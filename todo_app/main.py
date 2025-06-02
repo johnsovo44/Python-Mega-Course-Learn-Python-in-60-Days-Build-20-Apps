@@ -1,19 +1,3 @@
-"""
-Notes: 
-- Command line is used to interact with a script via text input and output.
-- You want to follow the input-processing-output pattern. The input is the input from the user, the processing is the logic of the script, and the output is what is displayed to the user. 
-- In the case of the to do list app, the input is the user's command (like adding a task), the processing is the logic to add that task to the list, and the output is the updated list of tasks.
-- main.py is the entry point of the application, where the main logic is executed.
-- remember to be literal when naming your variables, functions, and files. Makes readability of your code easier for future you and others.
-- Using intermediate variables, aka variables you don't need but are used to make the code more readable, is a good practice.
-- Python is a language and your computer speaks a language called machine code. When you install python you really are installing CPython, an interpreter that translates python code, which comes off as english, into C the language that your computer understands. It outputs the C language back into python for you to read and understand it.
-
-Concepts Used in this Script:
-- Strings
-- Variables
-- main.py
-- input function
-"""
 import os  # Import the os module to interact with the operating system, such as file handling.
 
 base_dir = os.path.dirname (__file__)  # Get the directory of the current file. This is useful for file handling.
@@ -45,26 +29,54 @@ while True:
         case "show" | "display":  # If the user input is "show" or "display", we display the todo list.
             with open(file_path, 'r') as file:
                 todolist = file.readlines()
+
+            new_todos = [item.strip('\n') for item in todolist if item]
+            # Create a new list of todos by stripping the newline character from each item in the todo list.
+
             print("Your todo list:")  # Print a header for the todo list.
-            for index, item in enumerate(todolist):  # Iterate over each item in the todo list.
+            for index, item in enumerate(new_todos):  # Iterate over each item in the todo list.
                 item = item.title()
-                print(f"{index}. {item}")  # Print each item in the todo list with its number. The f-string is used to format the output.
+                print(f"{index + 1}. {item}")  # Print each item in the todo list with its number. The f-string is used to format the output.
 
         case "edit":  # If the user input is "edit", we allow the user to edit a todo item.
+            with open(file_path, 'r') as file:
+                todolist = file.readlines()
+
+            for index, item in enumerate(todolist):
+                item = item.strip('\n').title()
+                print(f"{index + 1}. {item}")
+
             number = int(input("Enter list item to edit:"))
             existing_todo = todolist[number - 1]
+
             print(existing_todo.title())  # Display the existing todo item to the user.
             new_todo = input("Enter new todo item: ")
-            todolist[number - 1] = new_todo  # Update the todo item in the list with the new value.
+            todolist[number - 1] = new_todo +'\n' # Update the todo item in the list with the new value.
+            
             print(f"Updated todo item: {new_todo.title()}")  # Print the updated todo item to the user.
 
+            with open(file_path, 'w') as file:
+                file.writelines(todolist)
+
         case "complete": 
-            number = int(input("Enter list itme you completed: "))
+
+            with open(file_path, 'r') as file:
+                todolist = file.readlines()
+
+            for index, item in enumerate(todolist):
+                item = item.strip('\n').title()
+                print(f"{index + 1}. {item}")
+
+            number = int(input("Enter list item you completed: "))
+
             if 0 < number <= len(todolist):  # Check if the number is within the valid range of the todo list.
                 completed_todo = todolist.pop(number - 1)  # Remove the completed todo item from the list using pop method.
                 print(f"Completed todo item: {completed_todo.title()}")  # Print the completed todo item to the user.
             else:
                 print("Invalid number. Please try again.")  # Notify the user if the number is invalid.
+            
+            with open(file_path, 'w') as file:
+                file.writelines(todolist)
 
         case "exit":
             break  # If the user input is "exit", we break out of the loop to end the program.
@@ -74,3 +86,20 @@ while True:
 
 
 print ("Goodbye!")  # Print a goodbye message when the program ends. This is the final output to the user.
+
+"""
+Notes: 
+- Command line is used to interact with a script via text input and output.
+- You want to follow the input-processing-output pattern. The input is the input from the user, the processing is the logic of the script, and the output is what is displayed to the user. 
+- In the case of the to do list app, the input is the user's command (like adding a task), the processing is the logic to add that task to the list, and the output is the updated list of tasks.
+- main.py is the entry point of the application, where the main logic is executed.
+- remember to be literal when naming your variables, functions, and files. Makes readability of your code easier for future you and others.
+- Using intermediate variables, aka variables you don't need but are used to make the code more readable, is a good practice.
+- Python is a language and your computer speaks a language called machine code. When you install python you really are installing CPython, an interpreter that translates python code, which comes off as english, into C the language that your computer understands. It outputs the C language back into python for you to read and understand it.
+
+Concepts Used in this Script:
+- Strings
+- Variables
+- main.py
+- input function
+"""
