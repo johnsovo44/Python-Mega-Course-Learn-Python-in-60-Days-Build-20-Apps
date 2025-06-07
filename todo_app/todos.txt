@@ -4,3 +4,6 @@ grow
 clean mirror
 clean tub
 create art
+make pizza
+make tomato soup
+make soda

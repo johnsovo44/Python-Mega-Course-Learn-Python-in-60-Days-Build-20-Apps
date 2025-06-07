@@ -1,15 +1,10 @@
-import os  # Import the os module to interact with the operating system, such as file handling.
-
-base_dir = os.path.dirname (__file__)  # Get the directory of the current file. This is useful for file handling.
-
-file_path = os.path.join(base_dir, 'todos.txt')  # Create a file path for the todo list file. This combines the base directory with the file name.
+from modules import functions
 
 # This is the main script for a simple todo application.
 
 # Below we use a variable to store the user input for a todo item.
 # A variable is a named storage location in memory that can hold data.
 user_prompt = "Type add, show, edit, complete or exit:"  # This is a prompt for the user to enter a todo item. Data Type is a string.
-
 
 
 while True:
@@ -20,16 +15,13 @@ while True:
 
     if user_action.startswith('add'): # If the user input is "add", we proceed to add a todo item.
         todo = user_action[4:] + '\n' #list slicing
-        with open(file_path, 'r') as file:
-            todolist = file.readlines() # Read the existing todo list from the file. This is a file object method that reads the lines of the file into a list.
+        todolist = functions.get_todos()  # Call the function to get the current todo list.
         todolist.append(todo)  # Add the todo item to the list using a list object method. This modifies the list in place.
 
-        with open(file_path, 'w') as file:
-            file.writelines(todolist)  # Write the todo list to a file named 'todos.txt'. This is a file object method that writes the list to the file.
+        functions.write_todos(todolist)  # Call the function to write the updated todo list to the file.
 
     elif user_action.startswith('show'):  # If the user input is "show" or "display", we display the todo list.
-        with open(file_path, 'r') as file:
-            todolist = file.readlines()
+        todolist = functions.get_todos() 
 
         new_todos = [item.strip('\n') for item in todolist if item]
         # Create a new list of todos by stripping the newline character from each item in the todo list.
@@ -41,8 +33,7 @@ while True:
 
     elif user_action.startswith('edit'): # If the user input is "edit", we allow the user to edit a todo item.
         try:
-            with open(file_path, 'r') as file:
-                todolist = file.readlines()
+            todolist = functions.get_todos() 
 
             for index, item in enumerate(todolist):
                 item = item.strip('\n').title()
@@ -57,8 +48,8 @@ while True:
             
             print(f"Updated todo item: {new_todo.title()}")  # Print the updated todo item to the user.
 
-            with open(file_path, 'w') as file:
-                file.writelines(todolist)
+            functions.write_todos(todolist)
+
         except ValueError:
             print("Your command is not valid.")
             continue
@@ -67,8 +58,7 @@ while True:
 
         try:
 
-            with open(file_path, 'r') as file:
-                todolist = file.readlines()
+            todolist = functions.get_todos() 
 
             for index, item in enumerate(todolist):
                 item = item.strip('\n').title()
@@ -83,8 +73,7 @@ while True:
             else:
                 print("Invalid number. Please try again.")  # Notify the user if the number is invalid.
             
-            with open(file_path, 'w') as file:
-                file.writelines(todolist)
+            functions.write_todos(todolist)
         
         except IndexError:
             print("Your command is out of range. Please try again.")  # Notify the user if the index is out of range.
