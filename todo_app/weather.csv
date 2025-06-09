@@ -1,0 +1,4 @@
+"station", "temperature", "humidity", "wind_speed"
+NYC, 75, 60, 10
+LA, 85, 50, 5
+SF, 70, 55, 7

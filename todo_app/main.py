@@ -1,26 +1,45 @@
 from modules import functions
+import time
+
 
 # This is the main script for a simple todo application.
 
 # Below we use a variable to store the user input for a todo item.
 # A variable is a named storage location in memory that can hold data.
-user_prompt = "Type add, show, edit, complete or exit:"  # This is a prompt for the user to enter a todo item. Data Type is a string.
 
+user_prompt = "Type add, show, edit, complete or exit:"  
+# This is a prompt for the user to enter a todo item. Data Type is a string.
+
+now = time.strftime("%b %d, %Y %H:%M:%S")
+# This gets the current date and time in a specific format. Data Type is a string.
+
+print("Welcome to your todo app!")  # Print a welcome message to the user.
+
+print(f"Current time: {now}")  # Print the current date and time to the user.
 
 while True:
-    user_action = input(user_prompt)  # Get user input for a todo item. Data Type is a string.
-    user_action = user_action.strip()
+    user_action = input(user_prompt)  
+    # Get user input for a todo item. Data Type is a string.
 
+    user_action = user_action.strip()
 # We had match here, but it doesn't work well with 'in' statements, so we use a series of if-elif-else statements instead.
 
-    if user_action.startswith('add'): # If the user input is "add", we proceed to add a todo item.
+    if user_action.startswith('add'): 
+        # If the user input is "add", we proceed to add a todo item.
+
         todo = user_action[4:] + '\n' #list slicing
-        todolist = functions.get_todos()  # Call the function to get the current todo list.
-        todolist.append(todo)  # Add the todo item to the list using a list object method. This modifies the list in place.
+        todolist = functions.get_todos()  
+        # Call the function to get the current todo list.
 
-        functions.write_todos(todolist)  # Call the function to write the updated todo list to the file.
+        todolist.append(todo)  
+        # Add the todo item to the list using a list object method. This modifies the list in place.
 
-    elif user_action.startswith('show'):  # If the user input is "show" or "display", we display the todo list.
+        functions.write_todos(todolist)  
+        # Call the function to write the updated todo list to the file.
+
+    elif user_action.startswith('show'):
+         # If the user input is "show" or "display", we display the todo list.
+        
         todolist = functions.get_todos() 
 
         new_todos = [item.strip('\n') for item in todolist if item]
@@ -28,8 +47,10 @@ while True:
 
         print("Your todo list:")  # Print a header for the todo list.
         for index, item in enumerate(new_todos):  # Iterate over each item in the todo list.
+
             item = item.title()
-            print(f"{index + 1}. {item}")  # Print each item in the todo list with its number. The f-string is used to format the output.
+            print(f"{index + 1}. {item}")  
+            # Print each item in the todo list with its number. The f-string is used to format the output.
 
     elif user_action.startswith('edit'): # If the user input is "edit", we allow the user to edit a todo item.
         try:
@@ -39,7 +60,8 @@ while True:
                 item = item.strip('\n').title()
                 print(f"{index + 1}. {item}")
 
-            number = int(user_action[5:])  # Extract the number from the user input to identify which todo item to edit.
+            number = int(user_action[5:])  
+            # Extract the number from the user input to identify which todo item to edit.
             number = number - 1
             existing_todo = todolist[number]
 
