@@ -7,3 +7,5 @@ create art
 make pizza
 make tomato soup
 make soda
+create music
+pick out hair
