@@ -6,15 +6,24 @@ import FreeSimpleGUI as gui
 label = gui.Text('Welcome to My To-Do App!')
 input_box = gui.InputText(tooltip= 'Enter a task', key='Added Task')
 add_button = gui.Button('Add')
+list_box = gui.Listbox(values=functions.get_todos(),
+                      key='Todos',
+                      enable_events=True,
+                      size=[45, 10])  # Enable events to update the list box
+edit_button = gui.Button('Edit')
 
 window = gui.Window('My To-Do App', 
-                    layout=[[label], [input_box, add_button]],
+                    layout=[[label], [input_box, add_button], [list_box, edit_button]],
                     font=("Helvetica", 20)
         )
 
 while True:
     
         event, values = window.read()
+        print(1, event)
+        print(2, values)
+        print(3, values['Added Task'])
+        print(4, values['Todos'])
 # this actually returns a tuple with the event and values
 # the key I added in the input box is used to get the value
 
@@ -24,9 +33,24 @@ while True:
                         new_todo = values['Added Task'] + '\n'
                         todos.append(new_todo)
                         functions.write_todos(todos)
+                        window['Todos'].update(values=todos)
                         window['Added Task'].update('')  
                         # Clear the input box after adding
+
+                case "Edit":
+                        todo_to_edit = values['Todos'][0]  # Get the selected todo
+                        new_todo = values['Added Task'] + '\n'
+                        todos = functions.get_todos()
+                        index = todos.index(todo_to_edit)  # Find the index of the selected todo
+                        todos[index] = new_todo  # Update the todo at the index
+                        functions.write_todos(todos)
+                        window['Todos'].update(values=todos)
+                        window['Added Task'].update('')  # Clear the input box after editing
+
+                case 'Todos':
+                        window['Added Task'].update(value = values['Todos'][0].strip())
+
                 case gui.WIN_CLOSED:
-                        break
+                        break # stops the loop not the program
 
 window.close()
