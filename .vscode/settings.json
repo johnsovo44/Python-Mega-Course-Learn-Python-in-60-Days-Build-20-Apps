@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./todo_app/App/modules",
+        "./todo_app/App"
+    ]
+}
