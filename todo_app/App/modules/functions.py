@@ -1,4 +1,4 @@
-file_path_global = 'todo_app/App/todos.txt'  # Create a file path for the todo list file. This combines the base directory with the file name.
+file_path_global = 'todos.txt'  # Create a file path for the todo list file. This combines the base directory with the file name.
 
 
 def get_todos(filepath_func = file_path_global):
