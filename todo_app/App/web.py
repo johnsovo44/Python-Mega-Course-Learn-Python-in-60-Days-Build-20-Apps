@@ -16,11 +16,13 @@ st.subheader("Manage your tasks efficiently")
 st.write("This is a simple To-Do application built with Streamlit.")
 st.write("You can add, edit, and delete tasks.")
 
-for todo in todos:
-    st.checkbox(todo.strip(), key=todo)
+for index, todo in enumerate(todos):
+    checkbox = st.checkbox(todo.strip(), key=todo)
+    if checkbox:
+        todos.pop(index)
+        f.write_todos(todos)
+        del st.session_state[todo]
+        st.rerun()
 
 st.text_input(label=" ", placeholder="Add a new task", key="new_todo"
               , on_change = add_todo)
-
-st.session_state
-# this helps you see what is going on in the session state
