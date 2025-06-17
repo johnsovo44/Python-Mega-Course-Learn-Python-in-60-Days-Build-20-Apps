@@ -10,7 +10,7 @@ gui.theme('Dark')  # Set the theme for the GUI
 label_time = gui.Text('', key = 'time')
 label = gui.Text('Welcome to My To-Do App!')
 input_box = gui.InputText(tooltip= 'Enter a task', key='Added Task')
-add_button = gui.Button('Add', size = 10)
+add_button = gui.Button('Add', size = 10, image_source='add.png')
 list_box = gui.Listbox(values=functions.get_todos(),
                       key='Todos',
                       enable_events=True,
