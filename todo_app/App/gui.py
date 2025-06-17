@@ -11,9 +11,14 @@ list_box = gui.Listbox(values=functions.get_todos(),
                       enable_events=True,
                       size=[45, 10])  # Enable events to update the list box
 edit_button = gui.Button('Edit')
+complete_button = gui.Button('Complete')
+exit_button = gui.Button('Exit')
 
 window = gui.Window('My To-Do App', 
-                    layout=[[label], [input_box, add_button], [list_box, edit_button]],
+                    layout=[[label],
+                             [input_box, add_button],
+                               [list_box, edit_button, complete_button],
+                               [exit_button]],
                     font=("Helvetica", 20)
         )
 
@@ -46,6 +51,17 @@ while True:
                         functions.write_todos(todos)
                         window['Todos'].update(values=todos)
                         window['Added Task'].update('')  # Clear the input box after editing
+
+                case "Complete":
+                        todo_to_complete = values['Todos'][0]
+                        todos = functions.get_todos()
+                        todos.remove(todo_to_complete)  # Remove the completed todo
+                        functions.write_todos(todos)
+                        window['Todos'].update(values=todos)
+                        window['Added Task'].update('')  # Clear the input box after completing
+                
+                case "Exit":
+                        break  # Exit the loop and close the window
 
                 case 'Todos':
                         window['Added Task'].update(value = values['Todos'][0].strip())
